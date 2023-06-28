@@ -9,7 +9,7 @@ window.addEventListener('load', () => {
   init();
 });
 
-function init() {
+async function init() {
   const gui = new GUI();
 
   const renderer = new THREE.WebGLRenderer({
@@ -35,28 +35,63 @@ function init() {
 
   const fontLoader = new FontLoader();
 
-  fontLoader.load(
-    './assets/fonts/The Jamsil 3 Regular_Regular.json',
-    (font) => {
-      /** Text */
-      const textGeometry = new TextGeometry('안녕 친구들', {
-        font,
-        size: 0.5,
-        height: 0.1,
-      });
-      const textMeterial = new THREE.MeshPhongMaterial({ color: '#00C896' });
-
-      const text = new THREE.Mesh(textGeometry, textMeterial);
-
-      scene.add(text);
-    }
-    // (event) => {
-    //   console.log('progress', event);
-    // },
-    // (error) => {
-    //   console.log('error', error);
-    // }
+  const font = await fontLoader.loadAsync(
+    './assets/fonts/The Jamsil 3 Regular_Regular.json'
   );
+
+  const textGeometry = new TextGeometry('안녕 친구들', {
+    font,
+    size: 0.5,
+    height: 0.1,
+    bevelEnabled: true, // 경사진 면
+    bevelSegments: 5,
+    bevelSize: 0.02,
+    bevelThickness: 0.02,
+  });
+  const textMeterial = new THREE.MeshPhongMaterial({ color: '#FFFFFF' });
+
+  const text = new THREE.Mesh(textGeometry, textMeterial);
+
+  scene.add(text);
+
+  textGeometry.computeBoundingBox();
+
+  // textGeometry.translate(
+  //   -((textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x) * 0.5),
+  //   -((textGeometry.boundingBox.max.y - textGeometry.boundingBox.min.y) * 0.5),
+  //   -((textGeometry.boundingBox.max.z - textGeometry.boundingBox.min.z) * 0.5)
+  // );
+
+  textGeometry.center();
+
+  /** Texture */
+  const textureLoader = new THREE.TextureLoader().setPath('./assets/textures/');
+  const textTexture = textureLoader.load('holographic.jpeg');
+
+  textMeterial.map = textTexture;
+
+  // fontLoader.load(
+  //   './assets/fonts/The Jamsil 3 Regular_Regular.json',
+  //   (font) => {
+  //     /** Text */
+  //     const textGeometry = new TextGeometry('안녕 친구들', {
+  //       font,
+  //       size: 0.5,
+  //       height: 0.1,
+  //     });
+  //     const textMeterial = new THREE.MeshPhongMaterial({ color: '#00C896' });
+
+  //     const text = new THREE.Mesh(textGeometry, textMeterial);
+
+  //     scene.add(text);
+  //   }
+  //   // (event) => {
+  //   //   console.log('progress', event);
+  //   // },
+  //   // (error) => {
+  //   //   console.log('error', error);
+  //   // }
+  // );
   // const font = fontLoader.parse(typeface);
 
   /** AmbientLight */
@@ -65,13 +100,13 @@ function init() {
   scene.add(ambientLight);
 
   const pointLight = new THREE.PointLight('#FFFFFF', 0.5);
-  const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.5);
+  // const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.5);
 
   pointLight.position.set(3, 0, 2);
 
   gui.add(pointLight.position, 'x').min(-3).max(3).step(0.1);
 
-  scene.add(pointLight, pointLightHelper);
+  scene.add(pointLight);
 
   render();
 
