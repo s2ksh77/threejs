@@ -9,7 +9,6 @@ function init() {
     // alpha: true,
     antialias: true,
   });
-
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   document.body.appendChild(renderer.domElement);
@@ -26,7 +25,15 @@ function init() {
 
   const geometry = new THREE.BoxGeometry(2, 2, 2);
   // const material = new THREE.MeshBasicMaterial({ color: "#993366" }); // 조명의 영향을 받지 않는 material
-  const material = new THREE.MeshStandardMaterial({ color: "#993366" });
+  const material = new THREE.MeshStandardMaterial({
+    // color: "#993366",
+    color: new THREE.Color("#993366"),
+    // transparent: true,
+    // opacity: 0.5,
+    // visible: true,
+    // wireframe: true,
+    // side: THREE.DoubleSide,
+  });
 
   const cube = new THREE.Mesh(geometry, material);
 
@@ -47,5 +54,34 @@ function init() {
 
   scene.add(ambientLight);
 
-  renderer.render(scene, camera);
+  const clock = new THREE.Clock();
+
+  render();
+
+  function render() {
+    // radian  ( deg -> rad )
+    // cube.rotation.x = THREE.MathUtils.degToRad(45);
+    // cube.rotation.x += 0.01;
+    // cube.rotation.x = Date.now() / 1000; // 브라우저에서 동일한 프레임으로 회전시키기 위해 같은 값을 넣음
+    // cube.rotation.x = clock.getElapsedTime();
+    cube.rotation.x += clock.getDelta();
+
+    // cube.position.y = Math.sin(cube.rotation.x);
+    // cube.scale.x = Math.cos(cube.rotation.x);
+
+    renderer.render(scene, camera);
+
+    requestAnimationFrame(render);
+  }
+
+  function handleResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    renderer.render(scene, camera);
+  }
+  window.addEventListener("resize", () => {
+    handleResize();
+  });
 }
