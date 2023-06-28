@@ -23,11 +23,12 @@ function init() {
     500 // far 성능적인 문제 때문에 범위를 적어준다.
   );
 
-  const geometry = new THREE.BoxGeometry(2, 2, 2);
+  const cubeGeometry = new THREE.IcosahedronGeometry(1);
   // const material = new THREE.MeshBasicMaterial({ color: "#993366" }); // 조명의 영향을 받지 않는 material
-  const material = new THREE.MeshStandardMaterial({
+  const cubeMaterial = new THREE.MeshLambertMaterial({
     // color: "#993366",
-    color: new THREE.Color("#993366"),
+    color: new THREE.Color("#00FFFF"),
+    emissive: "#111111",
     // transparent: true,
     // opacity: 0.5,
     // visible: true,
@@ -35,24 +36,38 @@ function init() {
     // side: THREE.DoubleSide,
   });
 
-  const cube = new THREE.Mesh(geometry, material);
+  const skeletonGeometry = new THREE.IcosahedronGeometry(2);
+  // const material = new THREE.MeshBasicMaterial({ color: "#993366" }); // 조명의 영향을 받지 않는 material
+  const skeletonMaterial = new THREE.MeshBasicMaterial({
+    color: "#AAAAAA",
+    wireframe: true,
+    transparent: true,
+    opacity: 0.2,
+    // visible: true,
+    // wireframe: true,
+    // side: THREE.DoubleSide,
+  });
 
-  scene.add(cube);
+  const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+  const skeleton = new THREE.Mesh(skeletonGeometry, skeletonMaterial);
 
-  camera.position.set(3, 4, 5);
+  scene.add(cube, skeleton);
 
-  camera.lookAt(cube.position);
+  camera.position.z = 5;
+  // camera.position.set(3, 4, 5);
 
-  const directionalLight = new THREE.DirectionalLight("#F0F0F0", 1); // 그림자나 음영을 표시해주는 조명
-  directionalLight.position.set(-1, 2, 3);
+  // camera.lookAt(cube.position);
+
+  const directionalLight = new THREE.DirectionalLight("#FFFFFF", 1); // 그림자나 음영을 표시해주는 조명
+  // directionalLight.position.set(-1, 2, 3);
 
   scene.add(directionalLight);
 
-  const ambientLight = new THREE.AmbientLight("#ffffff", 0.1); // 그림자나 음영을 표시해주지 않는 조명
+  // const ambientLight = new THREE.AmbientLight("#ffffff", 0.1); // 그림자나 음영을 표시해주지 않는 조명
 
-  ambientLight.position.set(3, 2, 1);
+  // ambientLight.position.set(3, 2, 1);
 
-  scene.add(ambientLight);
+  // scene.add(ambientLight);
 
   const clock = new THREE.Clock();
 
@@ -64,7 +79,12 @@ function init() {
     // cube.rotation.x += 0.01;
     // cube.rotation.x = Date.now() / 1000; // 브라우저에서 동일한 프레임으로 회전시키기 위해 같은 값을 넣음
     // cube.rotation.x = clock.getElapsedTime();
-    cube.rotation.x += clock.getDelta();
+    const elapsedTime = clock.getElapsedTime();
+    cube.rotation.x = elapsedTime;
+    cube.rotation.y = elapsedTime;
+
+    skeleton.rotation.x = elapsedTime * 1.5;
+    skeleton.rotation.y = elapsedTime * 1.5;
 
     // cube.position.y = Math.sin(cube.rotation.x);
     // cube.scale.x = Math.cos(cube.rotation.x);
