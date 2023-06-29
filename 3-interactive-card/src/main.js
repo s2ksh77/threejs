@@ -59,6 +59,8 @@ function init() {
 
   scene.add(card.mesh);
 
+  gsap.to(card.mesh.rotation, { y: -Math.PI * 4, duration: 2.5, ease: 'back.out(2.5)' }); // y 축의 방향을 반대방향으로 두바퀴 돌려줌, 2.5초 동안 돌고 Greensock 홈페이지에서 확인
+
   const cardFolder = gui.addFolder('Card');
 
   cardFolder
@@ -121,6 +123,12 @@ function init() {
 
     button.addEventListener('click', () => {
       card.mesh.material.color = new THREE.Color(color);
+
+      gsap.to(card.mesh.rotation, {
+        y: card.mesh.rotation.y - Math.PI / 2,
+        duration: 1,
+        ease: 'back.out(2.5)',
+      });
     });
 
     container.appendChild(button);
