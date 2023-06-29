@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { gsap } from 'gsap';
 import Card from './Card';
 import GUI from 'lil-gui';
 
@@ -13,6 +14,8 @@ function init() {
     alpha: true,
   });
   const gui = new GUI();
+
+  const COLORS = ['#FF6E6E', '#31E0C1', '#006FFF', '#FFD732'];
 
   // renderer.setClearAlpha(0.5); // 0 에 가까울수록 투명
   // renderer.setClearColor('#00aaff', 0.5);
@@ -42,7 +45,17 @@ function init() {
 
   const controls = new OrbitControls(camera, renderer.domElement);
 
-  const card = new Card({ width: 10, height: 15.8, radius: 0.5, color: '#0077FF' });
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 2.5;
+  controls.rotateSpeed = 0.75; //드래그해서 회전되는 스피드
+  controls.enableDamping = true;
+  controls.enableZoom = false;
+  controls.minPolarAngle = Math.PI / 2 - Math.PI / 3;
+  controls.maxPolarAngle = Math.PI / 2 + Math.PI / 3;
+
+  const card = new Card({ width: 10, height: 15.8, radius: 0.5, color: COLORS[0] });
+
+  card.mesh.rotation.z = Math.PI * 0.1;
 
   scene.add(card.mesh);
 
@@ -80,6 +93,8 @@ function init() {
   render();
 
   function render() {
+    controls.update();
+
     renderer.render(scene, camera);
 
     requestAnimationFrame(render);
@@ -96,5 +111,18 @@ function init() {
   }
   window.addEventListener('resize', () => {
     handleResize();
+  });
+
+  const container = document.querySelector('.container');
+  COLORS.forEach((color) => {
+    const button = document.createElement('button');
+
+    button.style.backgroundColor = color;
+
+    button.addEventListener('click', () => {
+      card.mesh.material.color = new THREE.Color(color);
+    });
+
+    container.appendChild(button);
   });
 }

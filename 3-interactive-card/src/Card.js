@@ -3,7 +3,10 @@ import * as THREE from 'three';
 class Card {
   width;
   constructor({ width, height, radius, color }) {
+    /** Plane으로 표현 */
     // const geometry = new THREE.PlaneGeometry(width, height);
+
+    /** Shape으로 표현 */
     const shape = new THREE.Shape();
 
     const x = width / 2 - radius;
@@ -18,7 +21,15 @@ class Card {
       .lineTo(-(x + radius), y)
       .absarc(-x, y, radius, Math.PI, Math.PI / 2, true);
 
-    const geometry = new THREE.ShapeGeometry(shape);
+    // const geometry = new THREE.ShapeGeometry(shape); // 2차원을 지원
+
+    /** Extrude로 표현 */
+    const geometry = new THREE.ExtrudeGeometry(shape, {
+      // 2차원 + 깊이감 표현할 때
+      depth: 0.01,
+      bevelThickness: 0.1,
+    });
+
     const metarial = new THREE.MeshStandardMaterial({
       color,
       side: THREE.DoubleSide,
