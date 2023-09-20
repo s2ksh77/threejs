@@ -50,17 +50,35 @@ function init() {
   //   waveGeometry.attributes.position.array[i + 2] +=
   //     (Math.random() - 0.5) * waveHeight;
   // }
+  const initialZPositions = [];
 
   for (let i = 0; i < waveGeometry.attributes.position.count; i++) {
     const z =
       waveGeometry.attributes.position.getZ(i) +
       (Math.random() - 0.5) * waveHeight;
     waveGeometry.attributes.position.setZ(i, z);
+    initialZPositions.push(z);
   }
 
   const wave = new THREE.Mesh(waveGeometry, waveMeterial);
 
   wave.rotation.x = -Math.PI / 2; // 파도를 가로로 눕힘
+
+  const clock = new THREE.Clock();
+
+  wave.update = function () {
+    const elapsedTime = clock.getElapsedTime();
+
+    for (let i = 0; i < waveGeometry.attributes.position.count; i++) {
+      // const z = initialZPositions[i] + Math.sin(elapsedTime * 3) * waveHeight; // 전체의 sin 이 시간에 따라 전체가 같은 높낮이로 왔다갔다 하게 됨
+      const z =
+        initialZPositions[i] + Math.sin(elapsedTime * 3 + i ** 2) * waveHeight; // i가 선형적이게 증가하던 값을 i의 제곱 값으로 더함으로써 시간의 값을 랜덤하게 만들어 줌
+
+      waveGeometry.attributes.position.setZ(i, z);
+    }
+
+    waveGeometry.attributes.position.needsUpdate = true;
+  };
 
   scene.add(wave);
 
@@ -79,6 +97,8 @@ function init() {
   render();
 
   function render() {
+    wave.update();
+
     renderer.render(scene, camera);
 
     requestAnimationFrame(render);
