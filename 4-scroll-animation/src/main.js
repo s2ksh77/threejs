@@ -1,12 +1,14 @@
 import * as THREE from "three";
+import GUI from "lil-gui";
 
 window.addEventListener("load", () => {
   init();
 });
 
 function init() {
+  const gui = new GUI();
   const canvas = document.querySelector("#canvas");
-  console.log(canvas);
+
   const renderer = new THREE.WebGLRenderer({
     antialias: true,
     alpha: true,
@@ -16,6 +18,12 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   const scene = new THREE.Scene();
+
+  scene.fog = new THREE.Fog(0xf0f0f0, 0.1, 500);
+  // scene.fog = new THREE.FogExp2(0xf0f0f0, 0.005);
+
+  gui.add(scene.fog, "near").min(0).max(100).step(0.1);
+  gui.add(scene.fog, "far").min(100).max(500).step(0.1);
 
   // 물체에 대한 원근감 표현 카메라
   const camera = new THREE.PerspectiveCamera(
@@ -33,7 +41,6 @@ function init() {
     color: "#00ffff",
   });
 
-  console.log(waveGeometry.attributes.position);
   // waveGeometry.attributes.position.array -> 정점들의 좌표가 있다.
   // array의 0,1,2가 x,y,z 이고 3,4,5가 x,y,z 값과 매핑이 된다. itemSize: 3이랑 같다.
 
@@ -62,6 +69,12 @@ function init() {
   pointLight.position.set(15, 15, 15);
 
   scene.add(pointLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+
+  directionalLight.position.set(-15, 15, 15);
+
+  scene.add(directionalLight);
 
   render();
 

@@ -9,6 +9,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "0-boilerplate@workspace:."
   dependencies:
+    lil-gui: ^0.18.2
     three: ^0.153.0
     vite: ^4.3.9
   languageName: unknown
@@ -781,6 +782,13 @@ __metadata:
     "@pkgjs/parseargs":
       optional: true
   checksum: e29291c0d0f280a063fa18fbd1e891ab8c2d7519fd34052c0ebde38538a15c603140d60c2c7f432375ff7ee4c5f1c10daa8b2ae19a97c3d4affe308c8360c1df
+  languageName: node
+  linkType: hard
+
+"lil-gui@npm:^0.18.2":
+  version: 0.18.2
+  resolution: "lil-gui@npm:0.18.2"
+  checksum: 3898de5432e130ed03ab9c86074c0f19ccda9eee4e6493b5250973df06a482bc92fa91ff6f8019315486aeca6ff62b5962bf871f87462de7af7e289fb37118b6
   languageName: node
   linkType: hard
 
