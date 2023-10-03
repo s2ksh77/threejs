@@ -28,6 +28,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
+            ["gsap", "npm:3.12.2"],\
             ["lil-gui", "npm:0.18.2"],\
             ["three", "npm:0.153.0"],\
             ["vite", "virtual:0aa4ae06ce20d33d53602c545d96e7304c527fb26aea2ebf1146de352ede7b019a10a78ce87388a681330db3c55480fdee454c5de22ea32164fb192670c837b4#npm:4.3.9"]\
@@ -40,6 +41,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["0-boilerplate", "workspace:."],\
+            ["gsap", "npm:3.12.2"],\
             ["lil-gui", "npm:0.18.2"],\
             ["three", "npm:0.153.0"],\
             ["vite", "virtual:0aa4ae06ce20d33d53602c545d96e7304c527fb26aea2ebf1146de352ede7b019a10a78ce87388a681330db3c55480fdee454c5de22ea32164fb192670c837b4#npm:4.3.9"]\
@@ -748,6 +750,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/graceful-fs-npm-4.2.11-24bb648a68-ac85f94da9.zip/node_modules/graceful-fs/",\
           "packageDependencies": [\
             ["graceful-fs", "npm:4.2.11"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["gsap", [\
+        ["npm:3.12.2", {\
+          "packageLocation": "./.yarn/cache/gsap-npm-3.12.2-0e0850bbe0-e3e9709f9c.zip/node_modules/gsap/",\
+          "packageDependencies": [\
+            ["gsap", "npm:3.12.2"]\
           ],\
           "linkType": "HARD"\
         }]\

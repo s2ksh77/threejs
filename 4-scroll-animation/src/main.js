@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import GUI from "lil-gui";
 
 window.addEventListener("load", () => {
@@ -7,7 +9,17 @@ window.addEventListener("load", () => {
 });
 
 async function init() {
+  gsap.registerPlugin(ScrollTrigger);
+  const params = {
+    waveColor: "#00ffff",
+    backgroundColor: "#ffffff",
+    fogColor: "#f0f0f0",
+  };
+
   const gui = new GUI();
+
+  gui.hide();
+
   const canvas = document.querySelector("#canvas");
 
   const renderer = new THREE.WebGLRenderer({
@@ -15,6 +27,8 @@ async function init() {
     alpha: true,
     canvas,
   });
+
+  renderer.shadowMap.enabled = true;
 
   renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -39,7 +53,7 @@ async function init() {
   const waveGeometry = new THREE.PlaneGeometry(1500, 1500, 150, 150); // x축,y축을 길게 늘리고, x,y 세그먼트를 더 잘게 쪼갠다
   const waveMeterial = new THREE.MeshStandardMaterial({
     // wireframe: true,
-    color: "#00ffff",
+    color: params.waveColor,
   });
 
   // waveGeometry.attributes.position.array -> 정점들의 좌표가 있다.
@@ -63,6 +77,7 @@ async function init() {
 
   const wave = new THREE.Mesh(waveGeometry, waveMeterial);
 
+  wave.receiveShadow = true; // 그림자가 비춰질 object 에 receiveShadow
   wave.rotation.x = -Math.PI / 2; // 파도를 가로로 눕힘
 
   const clock = new THREE.Clock();
@@ -97,17 +112,35 @@ async function init() {
 
   ship.rotation.y = Math.PI;
 
+  ship.castShadow = true;
+
+  ship.traverse((object) => {
+    if (object.isMesh) {
+      object.castShadow = true; // 그림자가 생길 object에 castShadow
+    }
+  });
+
   ship.scale.set(40, 40, 40);
 
   scene.add(ship);
 
   const pointLight = new THREE.PointLight(0xffffff, 1);
 
+  pointLight.castShadow = true;
+  pointLight.shadow.mapSize.width = 1024;
+  pointLight.shadow.mapSize.height = 1024;
+  pointLight.shadow.radius = 10;
+
   pointLight.position.set(15, 15, 15);
 
   scene.add(pointLight);
 
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+
+  directionalLight.castShadow = true;
+  directionalLight.shadow.mapSize.width = 1024;
+  directionalLight.shadow.mapSize.height = 1024;
+  directionalLight.shadow.radius = 10;
 
   directionalLight.position.set(-15, 15, 15);
 
@@ -138,4 +171,68 @@ async function init() {
   window.addEventListener("resize", () => {
     handleResize();
   });
+
+  // gsap to의 meterial에 바로 hex 값의 색상을 넣을 수 없다.
+  // 따라서 THREE.Color 속성으로 나오는 color 값을 update 에 넣어준다.
+  // gsap.to(params, {
+  // waveColor: "#4268ff",
+  // onUpdate: () => {
+  //   waveMeterial.color = new THREE.Color(params.waveColor);
+  // },
+  //   scrollTrigger: {
+  //     trigger: ".wrapper",
+  //     start: "top top",
+  //     markers: true,
+  //     scrub: true,
+  //   },
+  // });
+
+  // gsap.to(params, {
+  //   backgroundColor: "#2a2a2a",
+  //   onUpdate: () => {
+  //     scene.background = new THREE.Color(params.backgroundColor);
+  //   },
+  //   scrollTrigger: {
+  //     trigger: ".wrapper",
+  //     start: "top top",
+  //     markers: true,
+  //     scrub: true,
+  //   },
+  // });
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".wrapper",
+      start: "top top",
+      markers: true,
+      scrub: true,
+    },
+  });
+
+  tl.to(params, {
+    waveColor: "#4268ff",
+    onUpdate: () => {
+      waveMeterial.color = new THREE.Color(params.waveColor);
+    },
+  })
+    .to(
+      params,
+      {
+        backgroundColor: "#2a2a2a",
+        onUpdate: () => {
+          scene.background = new THREE.Color(params.backgroundColor);
+        },
+      },
+      "<"
+    )
+    .to(
+      params,
+      {
+        fogColor: "#2f2f2f",
+        onUpdate: () => {
+          scene.fog.color = new THREE.Color(params.fogColor);
+        },
+      },
+      "<"
+    );
 }
