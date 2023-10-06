@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 class Firework {
   constructor({ x, y }) {
-    const count = 1000;
+    const count = 1000 + Math.round(Math.random() * 5000);
     const velocity = 10 + Math.random() * 10;
 
     const particlesGeometry = new THREE.BufferGeometry();
@@ -12,9 +12,18 @@ class Firework {
     for (let i = 0; i < count; i++) {
       const particle = new THREE.Vector3(x, y, 0);
 
-      particle.deltaX = THREE.MathUtils.randFloatSpread(velocity);
-      particle.deltaY = THREE.MathUtils.randFloatSpread(velocity);
-      particle.deltaZ = THREE.MathUtils.randFloatSpread(velocity);
+      // 원의 이차원 형태로 퍼져나가는 수학적인 공식
+      //   particle.theta = Math.random() * Math.PI * 2;
+      //   particle.deltaX = velocity * Math.cos(particle.theta);
+      //   particle.deltaY = velocity * Math.sin(particle.theta);
+      //   particle.deltaZ = 0;
+
+      // 원의 삼차원 형태로 퍼져나가는 수학적인 공식
+      particle.theta = Math.random() * Math.PI * 2;
+      particle.phi = Math.random() * Math.PI * 2;
+      particle.deltaX = velocity * Math.sin(particle.theta) * Math.cos(particle.phi);
+      particle.deltaY = velocity * Math.sin(particle.theta) * Math.sin(particle.phi);
+      particle.deltaZ = velocity * Math.cos(particle.theta);
 
       this.particles.push(particle);
     }
@@ -31,6 +40,7 @@ class Firework {
       transparent: true,
       depthWrite: false,
       color: new THREE.Color(Math.random(), Math.random(), Math.random()),
+      blending: THREE.AdditiveBlending,
     });
 
     const points = new THREE.Points(particlesGeometry, pointMeterial);
