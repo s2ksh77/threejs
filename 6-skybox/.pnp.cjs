@@ -28,6 +28,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
+            ["lil-gui", "npm:0.18.2"],\
             ["three", "npm:0.153.0"],\
             ["vite", "virtual:0aa4ae06ce20d33d53602c545d96e7304c527fb26aea2ebf1146de352ede7b019a10a78ce87388a681330db3c55480fdee454c5de22ea32164fb192670c837b4#npm:4.3.9"]\
           ],\
@@ -39,6 +40,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["0-boilerplate", "workspace:."],\
+            ["lil-gui", "npm:0.18.2"],\
             ["three", "npm:0.153.0"],\
             ["vite", "virtual:0aa4ae06ce20d33d53602c545d96e7304c527fb26aea2ebf1146de352ede7b019a10a78ce87388a681330db3c55480fdee454c5de22ea32164fb192670c837b4#npm:4.3.9"]\
           ],\
@@ -892,6 +894,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jackspeak", "npm:2.2.1"],\
             ["@isaacs/cliui", "npm:8.0.2"],\
             ["@pkgjs/parseargs", "npm:0.11.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["lil-gui", [\
+        ["npm:0.18.2", {\
+          "packageLocation": "./.yarn/cache/lil-gui-npm-0.18.2-c3f7b17396-3898de5432.zip/node_modules/lil-gui/",\
+          "packageDependencies": [\
+            ["lil-gui", "npm:0.18.2"]\
           ],\
           "linkType": "HARD"\
         }]\

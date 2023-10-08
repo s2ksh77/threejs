@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-
+import { GUI } from 'lil-gui';
 window.addEventListener('load', () => {
   init();
 });
 
 function init() {
+  const gui = new GUI();
   const renderer = new THREE.WebGLRenderer({
     antialias: true,
   });
@@ -23,7 +24,7 @@ function init() {
     500 // far 성능적인 문제 때문에 범위를 적어준다.
   );
 
-  camera.position.z = 5;
+  camera.position.z = 100;
 
   /** 큐브맵 텍스쳐를 이용한 3차원 공간 */
   // const controls = new OrbitControls(camera, renderer.domElement);
@@ -78,8 +79,31 @@ function init() {
 
   texture.mapping = THREE.EquirectangularReflectionMapping;
 
+  texture.mapping = THREE.EquirectangularRefractionMapping;
+
   scene.background = texture;
 
+  const sphereGeometry = new THREE.SphereGeometry(30, 50, 50);
+
+  const meterial = new THREE.MeshBasicMaterial({
+    envMap: texture,
+  });
+
+  const sphereMesh = new THREE.Mesh(sphereGeometry, meterial);
+
+  scene.add(sphereMesh);
+
+  gui
+    .add(texture, 'mapping', {
+      Reflection: THREE.EquirectangularReflectionMapping,
+      Refraction: THREE.EquirectangularRefractionMapping,
+    })
+    .onChange(() => {
+      meterial.needsUpdate = true;
+    });
+  gui.add(meterial, 'reflectivity').min(0).max(1).step(0.01);
+
+  gui.add(meterial, 'refractionRatio').min(0).max(1).step(0.01);
   render();
 
   function render() {
