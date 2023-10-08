@@ -26,6 +26,11 @@ function init() {
 
   camera.position.z = 100;
 
+  /** 3D 이미지 얻을 수 있는 사이트 */
+  // https://humus.name/index.php?page=Textures
+  // https://polyhaven.com/a/burnt_warehouse
+  // https://skybox.blockadelabs.com/
+
   /** 큐브맵 텍스쳐를 이용한 3차원 공간 */
   // const controls = new OrbitControls(camera, renderer.domElement);
 
