@@ -11,6 +11,7 @@
     "r3f": "yarn workspace r3f dev"
   },
   "devDependencies": {
+    "@types/three": "^0.176.0",
     "eslint": "^8.48.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.3.0",

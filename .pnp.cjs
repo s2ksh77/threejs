@@ -38,6 +38,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
+            ["@types/three", "npm:0.176.0"],\
             ["eslint", "npm:8.52.0"],\
             ["eslint-config-airbnb", "virtual:cf054cbb03b2d581c868c47ed1216393114f081af4ef18b9fe9d015b0ee5260bcbafc210c030c37fc7e5cc21c9fe464a05dbac5734e546e283888e12732d2988#npm:19.0.4"],\
             ["eslint-config-prettier", "virtual:cf054cbb03b2d581c868c47ed1216393114f081af4ef18b9fe9d015b0ee5260bcbafc210c030c37fc7e5cc21c9fe464a05dbac5734e546e283888e12732d2988#npm:8.10.0"],\
@@ -429,6 +430,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/helper-string-parser", "npm:7.22.5"],\
             ["@babel/helper-validator-identifier", "npm:7.22.20"],\
             ["to-fast-properties", "npm:2.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@dimforge/rapier3d-compat", [\
+        ["npm:0.12.0", {\
+          "packageLocation": "./.yarn/cache/@dimforge-rapier3d-compat-npm-0.12.0-d35c7c9478-86cb3b3992.zip/node_modules/@dimforge/rapier3d-compat/",\
+          "packageDependencies": [\
+            ["@dimforge/rapier3d-compat", "npm:0.12.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -951,6 +961,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@tweenjs/tween.js", [\
+        ["npm:23.1.3", {\
+          "packageLocation": "./.yarn/cache/@tweenjs-tween.js-npm-23.1.3-54a25ced7d-2f8a908b27.zip/node_modules/@tweenjs/tween.js/",\
+          "packageDependencies": [\
+            ["@tweenjs/tween.js", "npm:23.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/babel__core", [\
         ["npm:7.20.3", {\
           "packageLocation": "./.yarn/cache/@types-babel__core-npm-7.20.3-12e735c935-8d14acc14d.zip/node_modules/@types/babel__core/",\
@@ -1073,6 +1092,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["meshoptimizer", "npm:0.18.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:0.176.0", {\
+          "packageLocation": "./.yarn/cache/@types-three-npm-0.176.0-8fc926d22d-84821e0c7d.zip/node_modules/@types/three/",\
+          "packageDependencies": [\
+            ["@types/three", "npm:0.176.0"],\
+            ["@dimforge/rapier3d-compat", "npm:0.12.0"],\
+            ["@tweenjs/tween.js", "npm:23.1.3"],\
+            ["@types/stats.js", "npm:0.17.2"],\
+            ["@types/webxr", "npm:0.5.7"],\
+            ["@webgpu/types", "npm:0.1.60"],\
+            ["fflate", "npm:0.8.2"],\
+            ["meshoptimizer", "npm:0.18.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@types/webxr", [\
@@ -1116,6 +1149,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [\
             "@types/vite",\
             "vite"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@webgpu/types", [\
+        ["npm:0.1.60", {\
+          "packageLocation": "./.yarn/cache/@webgpu-types-npm-0.1.60-79b3475636-839d70c96a.zip/node_modules/@webgpu/types/",\
+          "packageDependencies": [\
+            ["@webgpu/types", "npm:0.1.60"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -2518,6 +2560,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/fflate-npm-0.6.10-b727a5dabe-96384bc409.zip/node_modules/fflate/",\
           "packageDependencies": [\
             ["fflate", "npm:0.6.10"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.8.2", {\
+          "packageLocation": "./.yarn/cache/fflate-npm-0.8.2-5129f303f0-29470337b8.zip/node_modules/fflate/",\
+          "packageDependencies": [\
+            ["fflate", "npm:0.8.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -4894,6 +4943,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["threejs-practices", "workspace:."],\
+            ["@types/three", "npm:0.176.0"],\
             ["eslint", "npm:8.52.0"],\
             ["eslint-config-airbnb", "virtual:cf054cbb03b2d581c868c47ed1216393114f081af4ef18b9fe9d015b0ee5260bcbafc210c030c37fc7e5cc21c9fe464a05dbac5734e546e283888e12732d2988#npm:19.0.4"],\
             ["eslint-config-prettier", "virtual:cf054cbb03b2d581c868c47ed1216393114f081af4ef18b9fe9d015b0ee5260bcbafc210c030c37fc7e5cc21c9fe464a05dbac5734e546e283888e12732d2988#npm:8.10.0"],\
