@@ -1,0 +1,19 @@
+{
+  "name": "threejs",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "cd $1 && vite dev",
+    "build": "cd $1 && vite build",
+    "preview": "cd $1 && vite preview"
+  },
+  "devDependencies": {
+    "vite": "^4.3.9"
+  },
+  "dependencies": {
+    "gsap": "^3.12.2",
+    "lil-gui": "^0.18.2",
+    "three": "^0.153.0"
+  }
+}
