@@ -103,15 +103,40 @@ async function init() {
   scene.add(spotLight);
 
   const mixer = new THREE.AnimationMixer(model);
-  console.log(gltf)
+
+  const combatAnimation = gltf.animations.slice(0,5);
+  const dancingAnimation = gltf.animations.slice(5);
+
+  const buttons = document.querySelector('.actions');
+
+  let currentAction;
+
+  combatAnimation.forEach(animation => {
+    const button = document.createElement('button');
+    button.innerText = animation.name;
+    buttons.appendChild(button);
+
+    button.addEventListener('click', () => {
+      const previousAction = currentAction;
+
+      currentAction = mixer.clipAction(animation);
+
+      if(previousAction !== currentAction) {
+        previousAction.fadeOut(0.5);
+        currentAction.reset().fadeIn(0.5).play();
+      }
+    })
+  })
 
   const hasAnimation = gltf.animations.length !== 0;
 
   if(hasAnimation) {
-    const action = mixer.clipAction(gltf.animations[0]);
-    console.log(action)
-    action.play();
+    currentAction = mixer.clipAction(gltf.animations[0]);
+    currentAction.play();
   }
+
+  const raycaster = new THREE.Raycaster();
+  const pointer = new THREE.Vector2();
 
   const clock = new THREE.Clock();
 
@@ -141,4 +166,44 @@ async function init() {
   window.addEventListener('resize', () => {
     handleResize();
   });
+
+  function handlePointerDown(event) {
+    pointer.x = (event.clientX / window.innerWidth - 0.5) * 2;
+    pointer.y = -(event.clientY / window.innerHeight - 0.5) * 2;
+
+    raycaster.setFromCamera(pointer, camera);
+
+    const intersects = raycaster.intersectObjects(scene.children);
+
+    const object = intersects[0]?.object;
+    if(object.name === 'Ch46') {
+      const previousAction = currentAction;
+      const index = Math.round(Math.random() * (dancingAnimation.length - 1))
+
+      currentAction = mixer.clipAction(dancingAnimation[index]);
+
+      currentAction.loop = THREE.LoopOnce;
+      currentAction.clampWhenFinished = true;
+
+      if(previousAction !== currentAction) {
+        previousAction.fadeOut(0.5);
+        currentAction.reset().fadeIn(0.5).play();
+      }
+
+      mixer.addEventListener('finished', handleFinished);
+
+      function handleFinished() {
+        mixer.removeEventListener('finished', handleFinished);
+
+        const previousAction = currentAction;
+
+        currentAction = mixer.clipAction(combatAnimation[0]);
+        
+        previousAction.fadeOut(0.5);
+        currentAction.reset().fadeIn(0.5).play();
+      }
+    }
+  }
+
+  window.addEventListener('pointerdown', handlePointerDown)
 }
